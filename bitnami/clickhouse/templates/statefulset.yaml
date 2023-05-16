@@ -97,7 +97,7 @@ spec:
               mountPath: /tmp/certs
             - name: clickhouse-certificates
               mountPath: /opt/bitnami/clickhouse/certs
-        {{- else if and $.Values.volumePermissions.enabled $.Values.persistence.enabled }}
+        {{- else if and $.Values.volumePermissions.enabled }}
         - name: volume-permissions
           image: {{ include "clickhouse.volumePermissions.image" $ }}
           imagePullPolicy: {{ $.Values.volumePermissions.image.pullPolicy | quote }}
@@ -361,10 +361,10 @@ spec:
           secret:
             secretName: {{ $.Values.extraOverridesSecret }}
         {{- end }}
-        {{- if not $.Values.persistence.enabled }}
-        - name: data
-          emptyDir: {}
-        {{- end }}
+#        {{- if not $.Values.persistence.enabled }}
+#        - name: data
+#          emptyDir: {}
+#        {{- end }}
         {{- if  $.Values.tls.enabled }}
         - name: raw-certificates
           secret:
